@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>FAIR data science in healthcare | fastpages</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="FAIR data science in healthcare" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<link rel="canonical" href="https://hugocool.github.io/blog/2021/05/28/Explaining_the_prediction_of_diabetes.html" />
+<meta property="og:url" content="https://hugocool.github.io/blog/2021/05/28/Explaining_the_prediction_of_diabetes.html" />
+<meta property="og:site_name" content="fastpages" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-05-28T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"An easy to use blogging platform with support for Jupyter Notebooks.","url":"https://hugocool.github.io/blog/2021/05/28/Explaining_the_prediction_of_diabetes.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hugocool.github.io/blog/2021/05/28/Explaining_the_prediction_of_diabetes.html"},"headline":"FAIR data science in healthcare","dateModified":"2021-05-28T00:00:00-05:00","datePublished":"2021-05-28T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://hugocool.github.io/blog/feed.xml" title="fastpages" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">fastpages</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">FAIR data science in healthcare</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-05-28T00:00:00-05:00" itemprop="datePublished">
+        May 28, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/hugocool/blog/tree/master/_notebooks/Explaining_the_prediction_of_diabetes.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/hugocool/blog/master?filepath=_notebooks%2FExplaining_the_prediction_of_diabetes.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/hugocool/blog/blob/master/_notebooks/Explaining_the_prediction_of_diabetes.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/Explaining_the_prediction_of_diabetes.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Ethical-Checklist">Ethical Checklist<a class="anchor-link" href="#Ethical-Checklist"> </a></h1><h2 id="A.-Data-Collection">A. Data Collection<a class="anchor-link" href="#A.-Data-Collection"> </a></h2><ul>
+<li>[ ] <strong>A.1 Informed consent</strong>: If there are human subjects, have they given informed consent, where subjects affirmatively opt-in and have a clear understanding of the data uses to which they consent?</li>
+<li>[ ] <strong>A.2 Collection bias</strong>: Have we considered sources of bias that could be introduced during data collection and survey design and taken steps to mitigate those?</li>
+<li>[ ] <strong>A.3 Limit PII exposure</strong>: Have we considered ways to minimize exposure of personally identifiable information (PII) for example through anonymization or not collecting information that isn't relevant for analysis?</li>
+<li>[ ] <strong>A.4 Downstream bias mitigation</strong>: Have we considered ways to enable testing downstream results for biased outcomes (e.g., collecting data on protected group status like race or gender)?</li>
+</ul>
+<h2 id="B.-Data-Storage">B. Data Storage<a class="anchor-link" href="#B.-Data-Storage"> </a></h2><ul>
+<li>[ ] <strong>B.1 Data security</strong>: Do we have a plan to protect and secure data (e.g., encryption at rest and in transit, access controls on internal users and third parties, access logs, and up-to-date software)?</li>
+<li>[ ] <strong>B.2 Right to be forgotten</strong>: Do we have a mechanism through which an individual can request their personal information be removed?</li>
+<li>[ ] <strong>B.3 Data retention plan</strong>: Is there a schedule or plan to delete the data after it is no longer needed?</li>
+</ul>
+<h2 id="C.-Analysis">C. Analysis<a class="anchor-link" href="#C.-Analysis"> </a></h2><ul>
+<li>[ ] <strong>C.1 Missing perspectives</strong>: Have we sought to address blindspots in the analysis through engagement with relevant stakeholders (e.g., checking assumptions and discussing implications with affected communities and subject matter experts)?</li>
+<li>[ ] <strong>C.2 Dataset bias</strong>: Have we examined the data for possible sources of bias and taken steps to mitigate or address these biases (e.g., stereotype perpetuation, confirmation bias, imbalanced classes, or omitted confounding variables)?</li>
+<li>[ ] <strong>C.3 Honest representation</strong>: Are our visualizations, summary statistics, and reports designed to honestly represent the underlying data?</li>
+<li>[ ] <strong>C.4 Privacy in analysis</strong>: Have we ensured that data with PII are not used or displayed unless necessary for the analysis?</li>
+<li>[ ] <strong>C.5 Auditability</strong>: Is the process of generating the analysis well documented and reproducible if we discover issues in the future?</li>
+</ul>
+<h2 id="D.-Modeling">D. Modeling<a class="anchor-link" href="#D.-Modeling"> </a></h2><ul>
+<li>[ ] <strong>D.1 Proxy discrimination</strong>: Have we ensured that the model does not rely on variables or proxies for variables that are unfairly discriminatory?</li>
+<li>[ ] <strong>D.2 Fairness across groups</strong>: Have we tested model results for fairness with respect to different affected groups (e.g., tested for disparate error rates)?</li>
+<li>[ ] <strong>D.3 Metric selection</strong>: Have we considered the effects of optimizing for our defined metrics and considered additional metrics?</li>
+<li>[ ] <strong>D.4 Explainability</strong>: Can we explain in understandable terms a decision the model made in cases where a justification is needed?</li>
+<li>[ ] <strong>D.5 Communicate bias</strong>: Have we communicated the shortcomings, limitations, and biases of the model to relevant stakeholders in ways that can be generally understood?</li>
+</ul>
+<h2 id="E.-Deployment">E. Deployment<a class="anchor-link" href="#E.-Deployment"> </a></h2><ul>
+<li>[ ] <strong>E.1 Redress</strong>: Have we discussed with our organization a plan for response if users are harmed by the results (e.g., how does the data science team evaluate these cases and update analysis and models to prevent future harm)?</li>
+<li>[ ] <strong>E.2 Roll back</strong>: Is there a way to turn off or roll back the model in production if necessary?</li>
+<li>[ ] <strong>E.3 Concept drift</strong>: Do we test and monitor for concept drift to ensure the model remains fair over time?</li>
+<li>[ ] <strong>E.4 Unintended use</strong>: Have we taken steps to identify and prevent unintended uses and abuse of the model and do we have a plan to monitor these once the model is deployed?</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Explaining-the-predictions">Explaining the predictions<a class="anchor-link" href="#Explaining-the-predictions"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+        <iframe width="1000" height="800" src="https://diabetes-example-yw5hmfmppa-ez.a.run.app/" frameborder="0" allowfullscreen=""></iframe>
+        
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="generating-a-checklist">generating a checklist<a class="anchor-link" href="#generating-a-checklist"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">deon</span> <span class="o">--</span><span class="n">quiet</span>
+<span class="err">!</span><span class="n">deon</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/blog/2021/05/28/Explaining_the_prediction_of_diabetes.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
